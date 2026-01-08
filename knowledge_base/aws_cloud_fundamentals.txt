@@ -1,0 +1,42 @@
+---
+Author: George Villanueva
+Date: 2025-01-08
+Topic: AWS Cloud Computing Fundamentals
+Summary: Overview of Amazon Web Services core concepts, services, and cloud computing principles for modern application development.
+---
+
+AWS Cloud Computing Fundamentals
+
+Amazon Web Services (AWS) is the world's most comprehensive and widely adopted cloud platform, offering over 200 fully featured services from data centers globally. Launched in 2006, AWS pioneered cloud computing and continues to lead the industry in innovation, reliability, and scale.
+
+What is Cloud Computing
+
+Cloud computing is the on-demand delivery of IT resources over the internet with pay-as-you-go pricing. Instead of buying, owning, and maintaining physical data centers and servers, organizations can access technology services such as computing power, storage, and databases on an as-needed basis from cloud providers like AWS.
+
+The cloud computing model offers several key advantages. Cost efficiency comes from paying only for what you use, without large upfront capital expenses. Scalability allows you to provision exactly the right amount of resources and scale up or down instantly as needs change. Speed and agility enable developers to launch new resources in minutes rather than weeks. Global reach lets you deploy applications in multiple regions worldwide with just a few clicks.
+
+Core AWS Services
+
+AWS offers services across numerous categories, but several form the foundation that most applications build upon. Understanding these core services is essential for cloud development.
+
+Amazon EC2 (Elastic Compute Cloud) provides resizable virtual servers in the cloud. You can launch instances with various operating systems and configurations to match your application needs. EC2 instances come in different types optimized for compute, memory, storage, or GPU workloads. You can scale capacity up or down, and you only pay for the compute time you use.
+
+Amazon S3 (Simple Storage Service) is object storage built to store and retrieve any amount of data from anywhere. S3 is highly durable, storing data across multiple facilities, and provides simple web services interfaces for storing and retrieving data. Common use cases include backup and recovery, data archiving, content distribution, and data lakes for big data analytics.
+
+Amazon RDS (Relational Database Service) makes it easy to set up, operate, and scale relational databases in the cloud. It provides cost-efficient and resizable capacity while automating time-consuming administration tasks such as hardware provisioning, database setup, patching, and backups. RDS supports several database engines including PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server.
+
+AWS Lambda enables you to run code without provisioning or managing servers. You pay only for the compute time you consume, with no charge when your code isn't running. Lambda automatically scales your application by running code in response to triggers such as changes to data, application state changes, or HTTP requests through API Gateway.
+
+Security and Identity
+
+AWS Identity and Access Management (IAM) enables you to manage access to AWS services and resources securely. Using IAM, you can create and manage AWS users and groups and use permissions to allow and deny their access to AWS resources. IAM follows the principle of least privilege, granting only the permissions required to perform specific tasks.
+
+Security in the cloud is a shared responsibility between AWS and the customer. AWS is responsible for security of the cloud, protecting the infrastructure that runs AWS services. Customers are responsible for security in the cloud, including protecting their data, managing identity and access, and configuring security groups and network access control lists.
+
+AWS Bedrock and AI Services
+
+AWS Bedrock is a fully managed service that makes foundation models from leading AI companies available through an API. It allows you to build and scale generative AI applications without managing infrastructure. You can choose from various foundation models, customize them with your data, and integrate them into your applications.
+
+Other AI services include Amazon Comprehend for natural language processing, Amazon Transcribe for speech-to-text conversion, Amazon Polly for text-to-speech, and Amazon Rekognition for image and video analysis. These services enable developers to add sophisticated AI capabilities to applications without deep machine learning expertise.
+
+AWS provides the infrastructure and services necessary for modern application development, from compute and storage to databases, networking, machine learning, and beyond. Understanding these fundamentals is essential for anyone building applications in the cloud.
