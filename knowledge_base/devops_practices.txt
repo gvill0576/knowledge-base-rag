@@ -1,0 +1,60 @@
+---
+Author: George Villanueva
+Date: 2025-01-08
+Topic: DevOps Practices and CI/CD
+Summary: Essential DevOps practices, continuous integration and continuous deployment concepts, and modern software delivery methodologies.
+---
+
+DevOps Practices and CI/CD
+
+DevOps is a set of practices that combines software development (Dev) and IT operations (Ops) to shorten the systems development life cycle and provide continuous delivery with high software quality. DevOps is complementary to Agile software development, with several aspects coming from the Agile methodology.
+
+Core DevOps Principles
+
+The fundamental principle of DevOps is to break down silos between development and operations teams. Traditionally, developers wrote code and "threw it over the wall" to operations teams who had to deploy and maintain it. This separation led to friction, delays, and reliability issues. DevOps promotes collaboration where these teams work together throughout the entire service lifecycle.
+
+Automation is central to DevOps practices. Repetitive tasks like testing, building, deploying, and monitoring should be automated wherever possible. This reduces human error, increases speed, and allows teams to focus on higher-value activities. Infrastructure as Code (IaC) is a key automation practice where infrastructure is provisioned and managed using code and software development techniques.
+
+Continuous feedback loops enable teams to rapidly identify and address issues. Monitoring, logging, and alerting systems provide real-time insights into application performance and user behavior. This data informs decisions about features, performance optimizations, and operational improvements.
+
+Continuous Integration (CI)
+
+Continuous Integration is a development practice where developers integrate code into a shared repository frequently, preferably several times a day. Each integration is verified by an automated build and automated tests to detect integration errors as quickly as possible.
+
+The CI process typically follows these steps: A developer commits code changes to version control. A CI server detects the change and triggers an automated build. The code is compiled (if necessary) and packaged. Automated tests run to verify the changes. If tests pass, the build is marked successful. If tests fail, the team is immediately notified to fix the issue.
+
+Benefits of CI include catching bugs early when they're cheaper to fix, reducing integration problems, providing rapid feedback on code quality, and maintaining a codebase that's always in a deployable state. Popular CI tools include GitHub Actions, Jenkins, GitLab CI, CircleCI, and Travis CI.
+
+Continuous Deployment (CD)
+
+Continuous Deployment extends CI by automatically deploying every change that passes the automated tests to production. This is different from Continuous Delivery, where deployments to production require manual approval. With Continuous Deployment, the entire process from code commit to production deployment is fully automated.
+
+The CD pipeline typically includes these stages: Source control checkout, build and compile, run unit tests, deploy to staging environment, run integration tests, deploy to production, run smoke tests, monitor for issues. Each stage must pass before proceeding to the next.
+
+Implementing CD requires robust testing, monitoring, and the ability to quickly rollback changes if issues arise. Feature flags and blue-green deployments are techniques that make CD safer by allowing you to deploy new code without immediately exposing it to all users.
+
+Infrastructure as Code
+
+Infrastructure as Code treats infrastructure configuration as software code. Instead of manually configuring servers, networks, and services, you write code that defines your infrastructure. This code can be version controlled, tested, and deployed just like application code.
+
+Benefits of IaC include consistency across environments, reduced configuration drift, faster provisioning, easier disaster recovery, and the ability to review infrastructure changes through code reviews. Tools like Terraform, AWS CloudFormation, and Ansible enable IaC practices.
+
+Version Control and Git Workflow
+
+Modern DevOps relies heavily on distributed version control systems, primarily Git. Effective Git workflows are essential for team collaboration. Common workflows include trunk-based development where developers work on short-lived feature branches that merge frequently to main, and GitFlow which uses multiple long-lived branches for different purposes.
+
+Best practices include making small, focused commits with clear messages, using branches for features and bug fixes, conducting code reviews through pull requests, and maintaining a clean commit history. These practices improve code quality and make collaboration more efficient.
+
+Testing Strategies
+
+DevOps emphasizes comprehensive automated testing throughout the development pipeline. The testing pyramid suggests having many unit tests (fast, focused on individual components), fewer integration tests (testing component interactions), and even fewer end-to-end tests (testing complete user workflows).
+
+Unit tests verify individual functions or methods in isolation. Integration tests check that different modules or services work together correctly. End-to-end tests validate complete user scenarios. Additional testing types include performance testing, security testing, and chaos engineering to test system resilience.
+
+Monitoring and Observability
+
+Production monitoring and observability are crucial DevOps practices. Monitoring tracks predefined metrics and alerts when thresholds are exceeded. Observability goes further, enabling teams to understand system behavior and diagnose issues even when they weren't anticipated.
+
+Key observability pillars include metrics (numerical measurements over time), logs (detailed records of events), and traces (records of request paths through distributed systems). Tools like Prometheus, Grafana, ELK Stack, and AWS CloudWatch provide monitoring and observability capabilities.
+
+DevOps represents a cultural shift toward collaboration, automation, and continuous improvement. By breaking down silos, automating repetitive tasks, and maintaining rapid feedback loops, DevOps enables organizations to deliver software faster and more reliably.
