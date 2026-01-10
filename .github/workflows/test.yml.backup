@@ -1,0 +1,226 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Code Quality (Linting)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      
+      - name: Install flake8
+        run: pip install flake8
+      
+      - name: Run linting
+        run: |
+          # Check for syntax errors and undefined names
+          flake8 src/ tests/ main.py --count --select=E9,F63,F7,F82 --show-source --statistics
+          
+          # Check code quality (allow long lines up to 100 chars)
+          flake8 src/ tests/ main.py --count --max-line-length=100 --statistics \
+            --exclude=__pycache__,.pytest_cache,vector_index
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run pytest
+        run: |
+          pytest tests/ -v --tb=short
+      
+      - name: Check test coverage
+        run: |
+          pytest tests/ --cov=src --cov-report=term-missing
+
+  verify-knowledge-base:
+    name: Verify Knowledge Base
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Count documents
+        run: |
+          DOC_COUNT=$(ls -1 knowledge_base/*.txt 2>/dev/null | wc -l)
+          echo "📚 Found $DOC_COUNT documents in knowledge base"
+          
+          # Require at least 4 documents
+          if [ "$DOC_COUNT" -lt 4 ]; then
+            echo "❌ Error: Need at least 4 documents"
+            echo "   Currently have $DOC_COUNT documents"
+            exit 1
+          fi
+          
+          echo "✅ Document count requirement met ($DOC_COUNT >= 4)"
+      
+      - name: Verify document format
+        run: |
+          echo "Checking document metadata headers..."
+          
+          ERROR=0
+          for file in knowledge_base/*.txt; do
+            if [ -f "$file" ]; then
+              if ! head -1 "$file" | grep -q "^---"; then
+                echo "❌ Error: $file missing metadata header (---)"
+                ERROR=1
+              else
+                echo "✅ $file has valid metadata header"
+              fi
+            fi
+          done
+          
+          if [ $ERROR -eq 1 ]; then
+            exit 1
+          fi
+          
+          echo "✅ All documents have proper metadata headers"
+      
+      - name: Verify word count
+        run: |
+          echo "Checking document word counts..."
+          
+          ERROR=0
+          for file in knowledge_base/*.txt; do
+            if [ -f "$file" ]; then
+              WORDS=$(wc -w < "$file")
+              echo "📄 $file: $WORDS words"
+              
+              if [ $WORDS -lt 300 ]; then
+                echo "❌ Error: $file has fewer than 300 words ($WORDS)"
+                ERROR=1
+              fi
+            fi
+          done
+          
+          if [ $ERROR -eq 1 ]; then
+            exit 1
+          fi
+          
+          echo "✅ All documents meet minimum word count (300+)"
+      
+      - name: Check for required metadata fields
+        run: |
+          echo "Verifying required metadata fields..."
+          
+          python3 << 'PYTHON'
+import sys
+from pathlib import Path
+
+required_fields = ['author', 'date', 'topic', 'summary']
+errors = []
+
+for file in Path('knowledge_base').glob('*.txt'):
+    with open(file) as f:
+        content = f.read()
+    
+    if not content.startswith('---'):
+        continue
+    
+    header = content.split('---')[1] if content.count('---') >= 2 else ''
+    header_lower = header.lower()
+    
+    for field in required_fields:
+        if f'{field}:' not in header_lower:
+            errors.append(f"{file.name} missing '{field}' field")
+            print(f"❌ {file.name} missing '{field}' field")
+
+if errors:
+    sys.exit(1)
+else:
+    print(f"✅ All documents have required metadata fields")
+PYTHON
+
+  check-structure:
+    name: Verify Project Structure
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Check required directories
+        run: |
+          echo "Checking project structure..."
+          
+          REQUIRED_DIRS="src tests knowledge_base .github/workflows"
+          ERROR=0
+          
+          for dir in $REQUIRED_DIRS; do
+            if [ -d "$dir" ]; then
+              echo "✅ $dir/ exists"
+            else
+              echo "❌ $dir/ missing"
+              ERROR=1
+            fi
+          done
+          
+          if [ $ERROR -eq 1 ]; then
+            exit 1
+          fi
+      
+      - name: Check required files
+        run: |
+          echo "Checking required files..."
+          
+          REQUIRED_FILES="README.md requirements.txt main.py src/__init__.py tests/__init__.py"
+          ERROR=0
+          
+          for file in $REQUIRED_FILES; do
+            if [ -f "$file" ]; then
+              echo "✅ $file exists"
+            else
+              echo "❌ $file missing"
+              ERROR=1
+            fi
+          done
+          
+          if [ $ERROR -eq 1 ]; then
+            exit 1
+          fi
+      
+      - name: Check Python modules
+        run: |
+          echo "Checking Python modules..."
+          
+          MODULES="src/loader.py src/embeddings.py src/vectorstore.py src/rag.py"
+          ERROR=0
+          
+          for module in $MODULES; do
+            if [ -f "$module" ]; then
+              echo "✅ $module exists"
+            else
+              echo "❌ $module missing"
+              ERROR=1
+            fi
+          done
+          
+          if [ $ERROR -eq 1 ]; then
+            exit 1
+          fi

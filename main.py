@@ -12,12 +12,12 @@ def main():
     print("=" * 60)
     print("Personal knowledge base with AI-powered Q&A")
     print("=" * 60)
-    
+
     # Parse command line arguments
     load_existing = "--load" in sys.argv
     interactive = "--interactive" in sys.argv or "-i" in sys.argv
     help_requested = "--help" in sys.argv or "-h" in sys.argv
-    
+
     if help_requested:
         print("\nUsage:")
         print("  python main.py              # Build from scratch and run demo")
@@ -26,10 +26,10 @@ def main():
         print("  python main.py --load -i    # Load index + interactive")
         print("  python main.py --help       # Show this help")
         return
-    
+
     # Build or load knowledge base
     kb = build_knowledge_base(load_existing=load_existing)
-    
+
     if interactive:
         # Interactive mode
         kb.interactive()
@@ -40,7 +40,7 @@ def main():
         print(f"{'='*60}")
         print("Running sample questions...")
         print("(Use --interactive for your own questions)")
-        
+
         # Sample questions about your documents
         demo_questions = [
             "What is Python and what are its key features?",
@@ -48,14 +48,14 @@ def main():
             "Explain continuous integration and deployment",
             "What are the different types of software tests?"
         ]
-        
+
         for i, question in enumerate(demo_questions, 1):
             print(f"\n[Question {i}/{len(demo_questions)}]")
             kb.ask(question)
-            
+
             if i < len(demo_questions):
                 input("\n👉 Press Enter for next question...")
-        
+
         print(f"\n{'='*60}")
         print("✅ Demo Complete!")
         print(f"{'='*60}")
